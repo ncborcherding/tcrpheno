@@ -1,22 +1,19 @@
 Package: tcrpheno
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: TCR-sequence-based phenotype scores
+Version: 0.99.0
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+    person(given = "Kaitlyn", family = "Lagattuta", role = c("aut", "cre"), email = "Kaitlyn_Lagattuta@hms.harvard.edu"), 
+    person(given = "Nick", family = "Borcherding", role = c("ctb"), email = "ncborch@gmail.com"))
+Description: The tcrpheno R package provides tools to predict T cell phenotypic fates based on their T cell receptor (TCR) sequences. Utilizing a logistic regression model trained on extensive paired TCR and transcriptome single-cell data, the primary function score_tcrs() analyzes input TCR alpha and/or beta chain information (CDR1/2/3 amino acid sequences, V/J gene usage) for individual cells. It calculates four scores, TCRinnate, TCR.8, TCRmem, and TCRreg, which quantify the predisposition of T cells towards innate-like, CD8+, memory, or regulatory phenotypes, respectively, by leveraging 1,250 biophysical features of the TCR sequence.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.2
 URL: https://github.com/kalaga27/tcrpheno
 BugReports: https://github.com/kalaga27/tcrpheno/issues
 Depends: 
-    R (>= 2.10)
+    R (>= 4.0)
 Imports: 
     dplyr,
     hash,
