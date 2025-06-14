@@ -51,6 +51,7 @@ First, let's load the necessary libraries and the data.
 library(tcrpheno)
 library(ggplot2)
 library(dplyr)
+library(tibble)
 library(tidyr)
 library(patchwork)
 
@@ -65,7 +66,7 @@ The data frame has one row per unique T cell, with columns for the alpha and bet
 
 # Generating Phenotype Scores
 
-With the TCR data loaded, we can use the `score_tcrs()` function to calculate the four phenotype scores. We specify `"ab"` for the `chains` argument because our data contains paired TCR-α and TCR-β information.
+With the TCR data loaded, we can use the `score_tcrs()` function to calculate the four phenotype scores. We specify `"ab"` for the `chain` argument because our data contains paired TCR-α and TCR-β information.
 
 ```{r score_clones}
 # Generate the phenotype scores
@@ -105,15 +106,15 @@ These plots provide a global overview of the predicted phenotypic landscape of t
 
 ### 2. Correlation Between Scores
 
-Next, we can investigate the relationships between different phenotype scores. Are certain predictions correlated? For instance, do TCRs with high memory potential (`TCR.mem`) also tend to have high regulatory potential (`TCR.reg`)? Scatter plots are ideal for exploring these correlations.
+Next, we can investigate the relationships between different phenotype scores. Are certain predictions correlated? For instance, is there a subset of high `TCR.CD8` that also have high memory potential (`TCR.mem`)? Scatter plots are ideal for exploring these correlations.
 
 ```{r plot_correlations}
-# Scatter plot for TCR.mem vs TCR.reg
-p1 <- ggplot(tcrpheno_scores, aes(x = TCR.mem, y = TCR.reg)) +
+# Scatter plot for TCR.CD8 vs TCR.mem
+p1 <- ggplot(tcrpheno_scores, aes(x = TCR.CD8, y = TCR.mem)) +
   geom_point(alpha = 0.4, color = "#F28E2B") +
   geom_smooth(method = "lm", se = FALSE, color = "#4E79A7", linetype = "dashed") +
   theme_minimal(base_size = 14) +
-  labs(title = "Memory vs. Regulatory Potential")
+  labs(title = "CD8 vs Memory Potential")
 
 # Scatter plot for TCR.CD8 vs TCR.innate
 p2 <- ggplot(tcrpheno_scores, aes(x = TCR.CD8, y = TCR.innate)) +
@@ -135,15 +136,19 @@ The `tcrpheno` model leverages V-gene usage, among other features. We can visual
 To make the plot readable, we'll first identify the 10 most frequent V genes in the dataset and then plot the `TCR.innate` score distribution for each.
 
 ```{r plot_vgene}
+tcrpheno_overall <- tcrpheno_scores %>%
+                      merge(tcrpheno_clones, by = 0) %>%
+                      column_to_rownames("Row.names")
+
 # Find the 10 most abundant TRAV genes
-top_trav_genes <- tcrpheno_scores %>%
+top_trav_genes <- tcrpheno_overall %>%
   count(TCRA_vgene, sort = TRUE) %>%
   filter(!is.na(TCRA_vgene)) %>%
   slice_head(n = 10) %>%
   pull(TCRA_vgene)
 
 # Filter the data for these genes and create the boxplot
-tcrpheno_scores %>%
+tcrpheno_overall %>%
   filter(TCRA_vgene %in% top_trav_genes) %>%
   ggplot(aes(x = reorder(TCRA_vgene, TCR.innate, median), y = TCR.innate)) +
   geom_boxplot(fill = "#E15759", alpha = 0.8) +
@@ -157,7 +162,7 @@ tcrpheno_scores %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-This visualization confirms the expected behavior described in the overview—that specific V genes are associated with higher `TCR.innate` scores, highlighting the biological features captured by the model.
+This visualization confirms the expected behavior described in the overview—that specific V genes (`TRAV1-2` for MAIT cells) are associated with higher `TCR.innate` scores, highlighting the biological features captured by the model.
 
 # Conclusion  
 

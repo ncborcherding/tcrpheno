@@ -119,11 +119,14 @@ get_feat_score <- function(x, amap){
 #' @importFrom stringr str_count
 #' @importFrom dplyr left_join
 #' @importFrom hash hash
-featurize_tcrs <- function(data, chain, cdr3_align="mid", cdr_only = TRUE, add_ints52 = TRUE, return_seq_grid=FALSE, do_jgenes = TRUE, restrict_length=TRUE){
-
-  library(dplyr)
-  library(stringr)
-  library(hash)
+featurize_tcrs <- function(data, 
+                           chain, 
+                           cdr3_align="mid", 
+                           cdr_only = TRUE, 
+                           add_ints52 = TRUE, 
+                           return_seq_grid=FALSE, 
+                           do_jgenes = TRUE, 
+                           restrict_length=TRUE){
 
   print("adding CDR1 and CDR2 based on V gene...")
   brd_BV = TRBVgrid$gene[!(grepl("-", TRBVgrid$gene))]
@@ -230,8 +233,8 @@ featurize_tcrs <- function(data, chain, cdr3_align="mid", cdr_only = TRUE, add_i
     positions = positions[grepl("cdr3", positions) | positions %in% cdr]
   }
   pos = pos[,as.character(positions)]
-
-  prc_fts = data.frame(id = as.character(data[,1]))
+  # Change to rownames - prevent issue with duplicates
+  prc_fts = data.frame(id = as.character(rownames(data)))
   ##we don't calculate G because this is our reference
   aminos <- c("A", "C", "D", "E", "F", "H", "I", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "Y")
 

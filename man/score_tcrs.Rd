@@ -38,9 +38,12 @@ weighted scoring model.
 }
 \examples{
 # Score paired alpha-beta TCRs
-ab_scores <- score_tcrs(tcrpheno_clones, chain = "ab")
+ab_scores <- score_tcrs(tcrpheno_clones[1:200,], 
+                        chain = "ab")
 
 # Score beta-chain only for MAIT/NKT phenotypes
-nkt_scores <- score_tcrs(tcrpheno_clones, chain = "b", MAIT_NKT = TRUE)
+nkt_scores <- score_tcrs(tcrpheno_clones[1:200,], 
+                         chain = "b", 
+                         MAIT_NKT = TRUE)
 
 }
