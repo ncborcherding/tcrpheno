@@ -23,10 +23,10 @@
 #' 
 #' @examples
 #' # Score paired alpha-beta TCRs
-#' ab_scores <- score_tcrs(tcrpheno_data, chain = "ab")
+#' ab_scores <- score_tcrs(tcrpheno_clones, chain = "ab")
 #' 
 #' # Score beta-chain only for MAIT/NKT phenotypes
-#' nkt_scores <- score_tcrs(tcrpheno_data, chain = "b", MAIT_NKT = TRUE)
+#' nkt_scores <- score_tcrs(tcrpheno_clones, chain = "b", MAIT_NKT = TRUE)
 #'
 #' @return A data frame containing the calculated scores for each TCR. The row names
 #' will correspond to the input TCR identifiers, and column names will indicate the
