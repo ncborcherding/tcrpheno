@@ -18,3 +18,8 @@ Imports:
     dplyr,
     hash,
     stringr
+Suggests:
+    ggplot2
+    patchwork
+    rmarkdown
+
