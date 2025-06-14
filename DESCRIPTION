@@ -19,6 +19,7 @@ Imports:
     hash,
     stringr
 Suggests:
+    BiocStyle,
     ggplot2
     patchwork
     rmarkdown

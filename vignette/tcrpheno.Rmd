@@ -1,9 +1,10 @@
 ---
 title: "Predicting T Cell Phenotype with tcrpheno"
 date: 'Compiled: `r format(Sys.Date(), "%B %d, %Y")`'
-output: rmarkdown::html_vignette
-theme: united
-df_print: kable
+output:
+  BiocStyle::html_document:
+    toc_float: true
+package: tcrpheno
 vignette: >
   %\VignetteIndexEntry{Applying tcrpheno and Visualizing Scores}
   %\VignetteEngine{knitr::rmarkdown}
@@ -11,14 +12,8 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  message = FALSE,
-  warning = FALSE,
-  fig.width = 8,
-  fig.height = 6
-)
+knitr::opts_chunk$set(error=FALSE, message=FALSE, warning=FALSE)
+library(BiocStyle)
 ```
 
 # Overview
